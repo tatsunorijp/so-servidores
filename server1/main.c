@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 #define QUANTIDADE 3
+#define true 1
+#define false 0
 /*tipo:
     1. Matematica
     2.Ciencias
@@ -19,6 +21,7 @@ struct livros{
 
 };
 
+typedef int bool;
 
 struct livros matematica[QUANTIDADE];
 struct livros ciencias[QUANTIDADE];
@@ -94,14 +97,15 @@ void route(char *qs)
 {
     int i, isbn;
     char *token = NULL;
+
     ROUTE_START()
 
 
     ROUTE_GET("/livros")
     {
-        printf("HTTP/1.1 200 OK\r\n\r\n");
-        printf("Hello! You are using %s\n", request_header("User-Agent"));
-        printf("Livros\n");
+        bool found = false;
+        //printf("HTTP/1.1 200 OK\r\n\r\n");
+        //printf("Hello! You are using %s\n", request_header("User-Agent"));
         //printf("%s\n", qs);
 
         token = strtok(qs, "=");
@@ -116,11 +120,17 @@ void route(char *qs)
 
         for (i = 0; i < QUANTIDADE; i++){
             if (matematica[i].isbn == isbn){
+                found = true;
+                printf("HTTP/1.1 200 OK\r\n\r\n");
                 printf("Nome: "); puts(matematica[i].nome);
                 printf("Autor: "); puts(matematica[i].autor);
                 printf("Ano: "); printf("%d\n", matematica[i].ano);
                 printf("Sessao: "); printf("%d\n", matematica[i].tipo);
             }
+        }
+
+        if (!found) {
+            printf("HTTP/1.1 404 Not Found\r\n\r\n");
         }
     }
 

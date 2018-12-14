@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 #define QUANTIDADE 3
+#define true 1
+#define false 0
 /*tipo:
     1. Matematica
     2.Ciencias
@@ -19,6 +21,8 @@ struct livros{
     char autor[30];
 
 };
+
+typedef int bool;
 
 struct livros ciencias[QUANTIDADE];
 
@@ -47,7 +51,7 @@ void cadastraLivros(){
 int main(int c, char** v)
 {
     cadastraLivros();
-    serve_forever("12913");
+    serve_forever("12914");
     return 0;
 }
 
@@ -60,9 +64,9 @@ void route(char *qs)
 
     ROUTE_GET("/livros")
     {
-        printf("HTTP/1.1 200 OK\r\n\r\n");
-        printf("Hello! You are using %s\n", request_header("User-Agent"));
-        printf("Livros\n");
+        bool found = false;
+        //printf("HTTP/1.1 200 OK\r\n\r\n");
+        //printf("Hello! You are using %s\n", request_header("User-Agent"));
         //printf("%s\n", qs);
 
         token = strtok(qs, "=");
@@ -77,11 +81,17 @@ void route(char *qs)
 
         for (i = 0; i < QUANTIDADE; i++){
             if (ciencias[i].isbn == isbn){
+                found = true;
+                printf("HTTP/1.1 200 OK\r\n\r\n");
                 printf("Nome: "); puts(ciencias[i].nome);
                 printf("Autor: "); puts(ciencias[i].autor);
                 printf("Ano: "); printf("%d\n", ciencias[i].ano);
                 printf("Sessao: "); printf("%d\n", ciencias[i].tipo);
             }
+        }
+
+        if (!found) {
+            printf("HTTP/1.1 404 Not Found\r\n\r\n");
         }
     }
 
