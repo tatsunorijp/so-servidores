@@ -6,7 +6,7 @@ int main(int c, char** v)
     return 0;
 }
 
-void route()
+void route(char *qs)
 {
     ROUTE_START()
 
@@ -21,6 +21,7 @@ void route()
         printf("HTTP/1.1 200 OK\r\n\r\n");
         printf("Hello! You are using %s\n", request_header("User-Agent"));
         printf("Livros\n");
+        printf("%s", qs);
     }
 
     ROUTE_POST("/")

@@ -50,7 +50,7 @@ int main(int argc, char *argv[]){
 	}
        
 	fd = socket_connect(argv[1], atoi(argv[2])); 
-	write(fd, "GET /livros HTTP/1.0\r\n\r\n", strlen("GET /livros HTTP/1.0\r\n\r\n")); // write(fd, char[]*, len);  
+	write(fd, "GET /livros?name=teste HTTP/1.0\r\n\r\n", strlen("GET /livros?name=teste HTTP/1.0\r\n\r\n")); // write(fd, char[]*, len);  
 	bzero(buffer, BUFFER_SIZE);
 	
 	while(read(fd, buffer, BUFFER_SIZE - 1) != 0){

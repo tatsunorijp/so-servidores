@@ -176,7 +176,7 @@ void respond(int n)
         close(clientfd);
 
         // call router
-        route();
+        route(qs);
 
         // tidy up
         fflush(stdout);
